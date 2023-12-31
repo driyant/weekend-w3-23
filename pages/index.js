@@ -40,9 +40,8 @@ export default function Home({ data }) {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            flexFlow="column"
           >
-            <InputNote />
+            {/* <InputNote /> */}
             <NoteList data={data} />
           </Box>
         </Box>
@@ -52,7 +51,7 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
-  const res = await fetch("https://paace-f178cafcae7b.nevacloud.io/api/notes");
+  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes");
   const { data } = await res.json();
-  return { props: { data: data } };
+  return { props: { data } };
 }

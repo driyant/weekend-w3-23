@@ -9,6 +9,7 @@ import {
   Tbody,
   Tr,
   Th,
+  Button,
 } from "@chakra-ui/react";
 import NoteListItem from "./NoteListItem";
 
@@ -22,10 +23,17 @@ const NoteList = ({ data }) => {
         backgroundColor="#FFF"
         borderRadius="6px"
         padding="1rem"
+        position="relative"
+        top="-120px"
       >
-        <Heading as="h5" size="sm">
-          Note list
-        </Heading>
+        <Button
+          colorScheme="blue"
+          size={{ base: "sm" }}
+          ml="auto"
+          style={{ boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)" }}
+        >
+          Add note
+        </Button>
         <TableContainer marginTop="1rem">
           <Table variant="striped" colorScheme="teal">
             <Thead>
