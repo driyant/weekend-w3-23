@@ -1,8 +1,6 @@
+// index.js
 import Head from "next/head";
 import { Box } from "@chakra-ui/react";
-import Header from "./components/Header";
-
-import InputNote from "./components/InputNote";
 import NoteList from "./components/NoteList";
 
 export default function Home({ data }) {
@@ -22,28 +20,14 @@ export default function Home({ data }) {
         height="100vh"
       >
         <Box
+          backgroundColor="#E6E6FA"
+          width="100%"
+          height="100vh"
           display="flex"
           justifyContent="center"
           alignItems="center"
-          flexFlow="column"
-          width={{
-            base: "80%",
-            lg: "60%",
-          }}
         >
-          <Header />
-          <Box
-            backgroundColor="#E6E6FA"
-            width="100%"
-            borderBottomLeftRadius="12px"
-            borderBottomRightRadius="12px"
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-          >
-            {/* <InputNote /> */}
-            <NoteList data={data} />
-          </Box>
+          <NoteList data={data} />
         </Box>
       </Box>
     </>
@@ -51,7 +35,12 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps() {
+  // Fetch data at each request
   const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes");
   const { data } = await res.json();
-  return { props: { data } };
+  return {
+    props: {
+      data,
+    },
+  };
 }
