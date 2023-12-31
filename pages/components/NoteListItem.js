@@ -5,7 +5,7 @@ import { Box, IconButton, Tr, Td } from "@chakra-ui/react";
 const NoteListItem = ({ data }) => {
   return (
     <>
-      {data.map((el) => {
+      {data?.map((el) => {
         return (
           <Tr key={el.id}>
             <Td>{el.title}</Td>
