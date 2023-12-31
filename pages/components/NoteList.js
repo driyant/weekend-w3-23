@@ -1,8 +1,7 @@
-import React from "react";
-
+// NoteList.js
+import React, { useState, useEffect } from "react";
 import {
   Box,
-  Heading,
   TableContainer,
   Table,
   Thead,
@@ -10,23 +9,60 @@ import {
   Tr,
   Th,
   Button,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalCloseButton,
 } from "@chakra-ui/react";
 import NoteListItem from "./NoteListItem";
+import InputNote from "./InputNote";
+import ModalDialog from "./ModalDialog";
 
 const NoteList = ({ data }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [notes, setNotes] = useState(data);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleNoteCreationSuccess = () => {
+    // Close the modal
+    handleCloseModal();
+    setTimeout(() => {
+      fetchData();
+    }, 1000);
+  };
+
+  const fetchData = async () => {
+    const res = await fetch(
+      process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes"
+    );
+    const { data: newData } = await res.json();
+    setNotes(newData);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <>
       <Box
         width="80%"
-        marginBottom="2rem"
         boxShadow="0px 8px 24px rgba(149, 157, 165, 0.2)"
         backgroundColor="#FFF"
         borderRadius="6px"
         padding="1rem"
-        position="relative"
-        top="-120px"
       >
         <Button
+          onClick={handleOpenModal}
           colorScheme="blue"
           size={{ base: "sm" }}
           ml="auto"
@@ -34,6 +70,14 @@ const NoteList = ({ data }) => {
         >
           Add note
         </Button>
+
+        {/* Modal */}
+        <ModalDialog
+          isModalOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onSuccess={handleNoteCreationSuccess}
+        />
+
         <TableContainer marginTop="1rem">
           <Table variant="striped" colorScheme="teal">
             <Thead>
@@ -43,7 +87,7 @@ const NoteList = ({ data }) => {
               </Tr>
             </Thead>
             <Tbody>
-              <NoteListItem data={data} />
+              <NoteListItem data={notes} />
             </Tbody>
           </Table>
         </TableContainer>
