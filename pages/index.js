@@ -1,21 +1,9 @@
 import Head from "next/head";
-import {
-  Box,
-  Heading,
-  FormControl,
-  IconButton,
-  Input,
-  Button,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableContainer,
-} from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import Header from "./components/Header";
 
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import InputNote from "./components/InputNote";
+import NoteList from "./components/NoteList";
 
 export default function Home() {
   return (
@@ -43,24 +31,7 @@ export default function Home() {
             lg: "60%",
           }}
         >
-          <Box
-            backgroundColor="#5D3FD3"
-            width="100%"
-            height="110px"
-            paddingTop="0.875rem"
-            borderTopLeftRadius="12px"
-            borderTopRightRadius="12px"
-          >
-            <Heading
-              as="h3"
-              size="lg"
-              textAlign="center"
-              color="#FFF"
-              fontWeight="600"
-            >
-              Notes
-            </Heading>
-          </Box>
+          <Header />
           <Box
             backgroundColor="#E6E6FA"
             width="100%"
@@ -71,122 +42,8 @@ export default function Home() {
             alignItems="center"
             flexFlow="column"
           >
-            <Box
-              backgroundColor="#FFF"
-              width="80%"
-              position="relative"
-              top="-50px"
-              borderRadius="6px"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              boxShadow="0px 8px 24px rgba(149, 157, 165, 0.2)"
-            >
-              <FormControl
-                as="form"
-                padding="1rem"
-                display="flex"
-                flexDirection="column"
-              >
-                <Input
-                  type="text"
-                  paddingLeft="0"
-                  placeholder="Got a new note?"
-                  border="none"
-                  borderRadius="0px"
-                  borderBottom="1px solid #ccc"
-                  _focus={{
-                    borderBottomColor: "blue.500",
-                    boxShadow: "none",
-                  }}
-                  marginBottom="1rem"
-                />
-                <Button
-                  colorScheme="blue"
-                  size={{ base: "sm" }}
-                  ml="auto"
-                  style={{ boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)" }}
-                >
-                  Add note
-                </Button>
-              </FormControl>
-            </Box>
-            <Box
-              width="80%"
-              marginBottom="2rem"
-              boxShadow="0px 8px 24px rgba(149, 157, 165, 0.2)"
-              backgroundColor="#FFF"
-              borderRadius="6px"
-              padding="1rem"
-            >
-              <Heading as="h5" size="sm">
-                Note list
-              </Heading>
-              <TableContainer marginTop="1rem">
-                <Table variant="striped" colorScheme="teal">
-                  <Thead>
-                    <Tr>
-                      <Th>list</Th>
-                      <Th>operation</Th>
-                    </Tr>
-                  </Thead>
-                  <Tbody>
-                    <Tr>
-                      <Td>next js</Td>
-                      <Td paddingLeft="0">
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <IconButton
-                            icon={<EditIcon />}
-                            colorScheme="blue"
-                            borderRadius="50%"
-                            boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                            marginRight="4px"
-                            onClick={() => console.log("edit")}
-                          />
-                          <IconButton
-                            icon={<DeleteIcon />}
-                            colorScheme="red"
-                            borderRadius="50%"
-                            boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                            onClick={() => console.log("delete")}
-                          />
-                        </Box>
-                      </Td>
-                    </Tr>
-                    <Tr>
-                      <Td>react js</Td>
-                      <Td paddingLeft="0">
-                        <Box
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                        >
-                          <IconButton
-                            icon={<EditIcon />}
-                            colorScheme="blue"
-                            borderRadius="50%"
-                            boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                            marginRight="4px"
-                            onClick={() => console.log("edit")}
-                          />
-                          <IconButton
-                            icon={<DeleteIcon />}
-                            colorScheme="red"
-                            borderRadius="50%"
-                            boxShadow="0px 4px 12px rgba(0, 0, 0, 0.1)"
-                            onClick={() => console.log("delete")}
-                          />
-                        </Box>
-                      </Td>
-                    </Tr>
-                  </Tbody>
-                </Table>
-              </TableContainer>
-            </Box>
+            <InputNote />
+            <NoteList />
           </Box>
         </Box>
       </Box>
