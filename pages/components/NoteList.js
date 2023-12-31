@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import NoteListItem from "./NoteListItem";
 
-const NoteList = () => {
+const NoteList = ({ data }) => {
   return (
     <>
       <Box
@@ -35,7 +35,7 @@ const NoteList = () => {
               </Tr>
             </Thead>
             <Tbody>
-              <NoteListItem />
+              <NoteListItem data={data} />
             </Tbody>
           </Table>
         </TableContainer>

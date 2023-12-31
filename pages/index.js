@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import InputNote from "./components/InputNote";
 import NoteList from "./components/NoteList";
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -43,10 +43,16 @@ export default function Home() {
             flexFlow="column"
           >
             <InputNote />
-            <NoteList />
+            <NoteList data={data} />
           </Box>
         </Box>
       </Box>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const res = await fetch("https://paace-f178cafcae7b.nevacloud.io/api/notes");
+  const { data } = await res.json();
+  return { props: { data: data } };
 }
