@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(req, res) {
-  const { method, body, query } = req;
+  const { method, body } = req;
 
   switch (method) {
     case "GET":
