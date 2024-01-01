@@ -17,6 +17,7 @@ const NoteList = ({ data }) => {
   const [notes, setNotes] = useState(data);
   const [selectedNote, setSelectedNote] = useState(null);
   const [actionType, setActionType] = useState(null);
+  const [noteDetail, setNoteDetail] = useState(null);
 
   const handleOpenModal = (type, note) => {
     setSelectedNote(note);
@@ -46,6 +47,20 @@ const NoteList = ({ data }) => {
       });
   };
 
+  const onFetchDetail = async () => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/notes/${selectedNote}`
+      );
+      const noteDetail = await response.json();
+      // Handle the fetched note details (set to state, pass to modal, etc.)
+      // console.log("Fetched Note Details:", noteDetail);
+      setNoteDetail(noteDetail);
+    } catch (error) {
+      console.error("Error fetching note details:", error);
+    }
+  };
+
   const fetchData = async () => {
     setTimeout(async () => {
       const res = await fetch(
@@ -58,7 +73,10 @@ const NoteList = ({ data }) => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+    if (selectedNote) {
+      onFetchDetail();
+    }
+  }, [selectedNote]);
 
   return (
     <>
@@ -86,6 +104,7 @@ const NoteList = ({ data }) => {
           actionType={actionType}
           note={selectedNote}
           onDelete={onDelete}
+          noteDetail={noteDetail}
         />
 
         <TableContainer marginTop="1rem">
