@@ -3,6 +3,7 @@
 export default async function handler(req, res) {
   const { method, body, query } = req;
   const { id } = query;
+
   switch (method) {
     case "DELETE":
       try {
