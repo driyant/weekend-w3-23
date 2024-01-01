@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
 export default async function handler(req, res) {
-  const { method, body } = req;
+  const { method, body, query } = req;
 
   switch (method) {
     case "GET":
@@ -28,6 +28,15 @@ export default async function handler(req, res) {
       }
       break;
 
+    case "DELETE":
+      try {
+        console.log("DELETE");
+        res.status(200).json({ message: "deleted successfully" });
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "Something went wrong: " + error });
+      }
+      break;
     default:
       res.status(405).json({ message: "Method Not Allowed" });
   }

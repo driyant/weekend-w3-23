@@ -1,4 +1,3 @@
-// NoteList.js
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -9,43 +8,52 @@ import {
   Tr,
   Th,
   Button,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalCloseButton,
 } from "@chakra-ui/react";
 import NoteListItem from "./NoteListItem";
-import InputNote from "./InputNote";
 import ModalDialog from "./ModalDialog";
 
 const NoteList = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [notes, setNotes] = useState(data);
+  const [selectedNote, setSelectedNote] = useState(null);
+  const [actionType, setActionType] = useState(null);
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (type, note) => {
+    setSelectedNote(note);
+    setActionType(type);
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
+    setActionType(null);
   };
 
   const handleNoteCreationSuccess = () => {
-    // Close the modal
+    fetchData();
     handleCloseModal();
-    setTimeout(() => {
-      fetchData();
-    }, 1000);
+  };
+
+  const onDelete = () => {
+    fetch(`/api/notes/${selectedNote}`, {
+      method: "DELETE",
+    })
+      .then(async (res) => console.log(await res.json()))
+      .catch((error) => console.error("Error deleting note:", error))
+      .finally(() => {
+        fetchData();
+        handleCloseModal();
+      });
   };
 
   const fetchData = async () => {
-    const res = await fetch(
-      process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes"
-    );
-    const { data: newData } = await res.json();
-    setNotes(newData);
+    setTimeout(async () => {
+      const res = await fetch(
+        process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes"
+      );
+      const { data: newData } = await res.json();
+      setNotes(newData);
+    }, 1000);
   };
 
   useEffect(() => {
@@ -62,7 +70,7 @@ const NoteList = ({ data }) => {
         padding="1rem"
       >
         <Button
-          onClick={handleOpenModal}
+          onClick={() => handleOpenModal("add", null)}
           colorScheme="blue"
           size={{ base: "sm" }}
           ml="auto"
@@ -71,11 +79,13 @@ const NoteList = ({ data }) => {
           Add note
         </Button>
 
-        {/* Modal */}
         <ModalDialog
           isModalOpen={isModalOpen}
           onClose={handleCloseModal}
           onSuccess={handleNoteCreationSuccess}
+          actionType={actionType}
+          note={selectedNote}
+          onDelete={onDelete}
         />
 
         <TableContainer marginTop="1rem">
@@ -87,7 +97,7 @@ const NoteList = ({ data }) => {
               </Tr>
             </Thead>
             <Tbody>
-              <NoteListItem data={notes} />
+              <NoteListItem data={notes} onOpenModal={handleOpenModal} />
             </Tbody>
           </Table>
         </TableContainer>
