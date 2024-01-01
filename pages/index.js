@@ -1,6 +1,9 @@
+// index.js
 import Head from "next/head";
+import { Box } from "@chakra-ui/react";
+import NoteList from "./components/NoteList";
 
-export default function Home() {
+export default function Home({ data }) {
   return (
     <>
       <Head>
@@ -9,7 +12,35 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Hello World!</h1>
+      <Box
+        as="main"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <Box
+          backgroundColor="#E6E6FA"
+          width="100%"
+          height="100vh"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <NoteList data={data} />
+        </Box>
+      </Box>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  // Fetch data at each request
+  const res = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + "/api/notes");
+  const { data } = await res.json();
+  return {
+    props: {
+      data,
+    },
+  };
 }
